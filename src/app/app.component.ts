@@ -9,7 +9,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class AppComponent implements OnInit {
   @Output() formReady = new EventEmitter<FormGroup>();
-  @Input() defaultValues: any = {};
+  @Input() defaultValues: any = null;
   form!: FormGroup;
   days = [
     { Name: 'Monday', Number: 1 },
@@ -77,11 +77,9 @@ export class AppComponent implements OnInit {
       }
     }, 500);
     if (
-      this.defaultValues &&
-      this.defaultValues.additionalDataForm &&
-      this.defaultValues.additionalDataForm.OpeningTimes
+      this.defaultValues
     ) {
-      this.defaultValues.additionalDataForm.OpeningTimes.forEach((day: any) => {
+      this.defaultValues.forEach((day: any) => {
         const openingTimeDay = this.fb.group({
           DayOfWeek: [day['DayOfWeek']],
           Open: [day['Open']],

@@ -1,0 +1,127 @@
+<div *ngIf="form" [formGroup]="form">
+  <div ngClass.gt-sm="p-32" ngClass.sm="p-16" ngClass.xs="p-16">
+    <div class="overview-exp-header mb-32">
+      <h3 class="mb-0 font-size-18 inter-bold body-title text-uppercase">Opening Hours</h3>
+    </div>
+
+    <div formArrayName="OpeningTimes">
+      <div class="mb-24" fxLayout="row" fxLayoutGap="12px">
+        <div
+          (click)="setDayAvailability(i)"
+          *ngFor="let slot of OpeningTimes.controls; let i = index"
+          [formGroupName]="i"
+          class="mb-24"
+          fxLayout="row"
+          fxLayoutGap="12px"
+        >
+          <div
+            [class.single-day-selected]="this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value"
+            class="single-day"
+          >
+            <p class="mb-0 font-size-14 roboto-regular">{{ days[i].Name.charAt(0) }}</p>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="40" fxFlexAlign="column">
+          <div *ngFor="let openingHoursForm of OpeningTimes.controls; let i = index" [formGroupName]="i">
+            <div
+              *ngIf="this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value"
+              fxLayout="row"
+              fxLayoutAlign="start start"
+              fxLayoutGap="32px"
+            >
+              <div fxFlex="15%">
+                <div class="day-name">
+                  <p class="font-size-14 inter-semi-bold accent-text-2 mb-0">{{ days[i].Name }}</p>
+                </div>
+              </div>
+              <div fxFlex="55%">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                  <div
+                    fxLayout="row"
+                    fxLayoutAlign="start center"
+                    fxLayoutGap="1px"
+                  >
+                    <div class="opening-hour-time">
+                      <mat-form-field appearance="outline" class="w-100-p">
+                        <mat-select formControlName="From1" required value="01:00">
+                          <mat-option *ngFor="let opt of times" [value]="opt"
+                          >{{ opt }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="opening-h-to">
+                      <p class="mb-0 px-8">to</p>
+                    </div>
+                    <div class="opening-hour-time">
+                      <mat-form-field appearance="outline" class="w-100-p">
+                        <mat-select formControlName="To1" required>
+                          <ng-container *ngFor="let opt of times">
+                            <mat-option *ngIf="form.controls['OpeningTimes'].get([i])?.get('From1')?.value < opt"
+                                        [value]="opt">
+                              <div>{{opt}}</div>
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <button (click)="doubleShifts[i] = true" *ngIf="!doubleShifts[i]" mat-icon-button>
+                    <mat-icon>add_circle_outline</mat-icon>
+                  </button>
+                </div>
+
+                <div *ngIf="doubleShifts[i]" class="mt-16" fxLayout="row">
+                  <div
+                    fxLayout="row"
+                    fxLayoutAlign="start center"
+                    fxLayoutGap="1px"
+                  >
+                    <div class="opening-hour-time">
+                      <mat-form-field appearance="outline" class="w-100-p">
+                        <mat-select formControlName="From2" required [value]="'01:00'">
+                          <ng-container *ngFor="let opt of times">
+                            <mat-option *ngIf="form.controls['OpeningTimes'].get([i])?.get('To1')?.value < opt"
+                                        [value]="opt">
+                              {{opt}}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="opening-h-to">
+                      <p class="mb-0 px-8">to</p>
+                    </div>
+                    <div class="opening-hour-time">
+                      <mat-form-field appearance="outline" class="w-100-p">
+                        <mat-select formControlName="To2" required>
+                          <ng-container *ngFor="let opt of times">
+                            <mat-option *ngIf="form.controls['OpeningTimes'].get([i])?.get('From2')?.value < opt"
+                                        [value]="opt">
+                              {{opt}}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <button (click)="doubleShifts[i] = false" mat-icon-button>
+                    <mat-icon>remove_circle_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="daysSelected !== 0">
+          <button (click)="copyToAll()" color="primary" mat-button>
+            Copy to All
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

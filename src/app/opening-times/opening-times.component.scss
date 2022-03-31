@@ -1,0 +1,32 @@
+.single-day {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+  background: #E3EAEC;
+  color: #6C6D6A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.single-day-selected {
+  background: #8CC73F;
+  color: #ffff;
+}
+.opening-h-to {
+  padding: 0 4px;
+}
+.opening-hour-time {
+  .mat-form-field-infix {
+    max-width: 100px;
+    width: 100px;
+  }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+}

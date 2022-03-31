@@ -10,10 +10,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {MatOptionModule} from "@angular/material/core";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatSelectModule} from "@angular/material/select";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,9 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     CommonModule,
     ReactiveFormsModule,
     MatOptionModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

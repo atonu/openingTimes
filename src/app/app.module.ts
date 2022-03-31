@@ -8,6 +8,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
+import {MatOptionModule} from "@angular/material/core";
 import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
@@ -22,8 +23,9 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     MatInputModule,
     MatButtonModule,
     CommonModule,
-    ReactiveFormsModule
-    // FlexLayoutModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

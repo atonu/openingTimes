@@ -50,7 +50,6 @@ export class AppComponent implements OnInit {
   daysSelected: number =0;
 
   constructor(private fb: FormBuilder) {
-    this.ngOnInit()
   }
 
   get OpeningTimes() {

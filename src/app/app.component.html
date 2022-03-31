@@ -47,11 +47,10 @@
                   >
                     <div class="opening-hour-time">
                       <div appearance="fill" class="w-100-p">
-                        <select formControlName="From1" required value="01:00">
-                          <option *ngFor="let opt of times" [value]="opt">{{
-                            opt
-                            }}
-                          </option>
+                        <select formControlName="From1" required [value]="'01:00'">
+                            <option *ngFor="let opt of times" [value]="opt">
+                              {{opt}}
+                            </option>
                         </select>
                       </div>
                     </div>
@@ -85,7 +84,7 @@
                   >
                     <div class="opening-hour-time">
                       <div appearance="fill" class="w-100-p">
-                        <select formControlName="From2" required value="01:00">
+                        <select formControlName="From2" required [value]="'01:00'">
                           <ng-container *ngFor="let opt of times">
                             <option *ngIf="form.controls['OpeningTimes'].get([i])?.get('To1')?.value < opt"
                                     [value]="opt">

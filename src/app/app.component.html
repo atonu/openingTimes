@@ -1,12 +1,12 @@
-<div fxLayout="column" fxLayoutAlign="center center" class="mt-48 pb-48">
-<h2 class="ml-32">With default values</h2>
-<div style="border: solid 1px #dbdbdb; border-radius: 8px;width: 50vw">
-<app-opening-times [defaultValues]="days"
-                   (formReady)="addChildForm('OpeningTimesForm', $event)">
-</app-opening-times>
-</div>
-<h2 class="ml-32 mt-48">Without default values</h2>
-<div style="border: solid 1px #dbdbdb; border-radius: 8px;width: 50vw">
-<app-opening-times></app-opening-times>
-</div>
+<div class="mt-48 pb-48" fxLayout="column" fxLayoutAlign="center center">
+  <h2 class="ml-32">With default values</h2>
+  <div style="border: solid 1px #dbdbdb; border-radius: 8px;width: 50vw">
+    <app-opening-times (formReady)="addChildForm('OpeningTimesForm', $event)"
+                       [defaultValues]="days">
+    </app-opening-times>
+  </div>
+  <h2 class="ml-32 mt-48">Without default values</h2>
+  <div style="border: solid 1px #dbdbdb; border-radius: 8px;width: 50vw">
+    <app-opening-times></app-opening-times>
+  </div>
 </div>

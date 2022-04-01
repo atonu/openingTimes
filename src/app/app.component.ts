@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {DAYS_SEED} from "../Constants/Constants";
 
 @Component({
   selector: 'app-root',
@@ -7,58 +8,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  days = [
-    {
-      DayOfWeek:1,
-      Closed:false,
-      From1:'03:00',
-      To1:'05:00',
-      From2:'06:00',
-      To2:'08:00'
-    },{
-      DayOfWeek:2,
-      Closed:true,
-      From1:'01:00',
-      To1:'02:00',
-      From2:'04:00',
-      To2:'05:00'
-    },{
-      DayOfWeek:2,
-      Closed:true,
-      From1:'01:00',
-      To1:'02:00',
-      From2:'04:00',
-      To2:'05:00'
-    },{
-      DayOfWeek:2,
-      Closed:false,
-      From1:'01:00',
-      To1:'02:00',
-      From2:'04:00',
-      To2:'05:00'
-    },{
-      DayOfWeek:2,
-      Closed:false,
-      From1:'01:00',
-      To1:'02:00',
-      From2:'04:00',
-      To2:'05:00'
-    },{
-      DayOfWeek:2,
-      Closed:true,
-      From1:'01:00',
-      To1:'02:00',
-      From2:'04:00',
-      To2:'05:00'
-    },{
-      DayOfWeek:2,
-      Closed:true,
-      From1:'01:00',
-      To1:'02:00',
-      From2:'04:00',
-      To2:'05:00'
-    }
-  ]
+  days = DAYS_SEED
   Form!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {

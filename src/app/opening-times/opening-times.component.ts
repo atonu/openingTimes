@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TIMES_SEED, WEEKLY_DAYS} from "../../Constants/Constants";
+import {DayOfWeek} from "../../Models/DayOfWeek";
 
 @Component({
   selector: 'app-opening-times',
@@ -8,46 +10,13 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class OpeningTimesComponent implements OnInit {
   @Output() formReady = new EventEmitter<FormGroup>();
-  @Input() defaultValues: any = null;
+  @Input() defaultValues: DayOfWeek[] = [];
   form!: FormGroup;
-  days = [
-    { Name: 'Monday', Number: 1 },
-    { Name: 'Tuesday', Number: 2 },
-    { Name: 'Wednesday', Number: 3 },
-    { Name: 'Thursday', Number: 4 },
-    { Name: 'Friday', Number: 5 },
-    { Name: 'Saturday', Number: 6 },
-    { Name: 'Sunday', Number: 7 },
-  ];
-  times = [
-    '00:00',
-    '01:00',
-    '02:00',
-    '03:00',
-    '04:00',
-    '05:00',
-    '06:00',
-    '07:00',
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00',
-    '21:00',
-    '22:00',
-    '23:00',
-  ];
+  days = WEEKLY_DAYS
+  times = TIMES_SEED
   doubleShifts: boolean[] = [false, false, false, false, false, false, false];
   daysSelected!: number;
-  disableForm= false;
+  disableForm = false;
 
   constructor(private fb: FormBuilder) {
   }
@@ -75,7 +44,7 @@ export class OpeningTimesComponent implements OnInit {
         }
       }
     }, 500);
-    if (this.defaultValues) {
+    if (this.defaultValues.length!==0) {
       this.subscribeFormControls();
     }
     this.days.forEach((day) => {
@@ -90,7 +59,7 @@ export class OpeningTimesComponent implements OnInit {
       this.OpeningTimes.push(openingTimeDay);
     });
     if (
-      this.defaultValues
+      this.defaultValues.length!==0
     ) {
       this.resetOpeningTimes();
     }
@@ -144,9 +113,11 @@ export class OpeningTimesComponent implements OnInit {
       }
     }
   }
+
   resetOpeningTimes() {
     this.OpeningTimes.setValue(this.defaultValues);
   }
+
   private subscribeFormControls() {
     this.form.valueChanges.subscribe((change) => {
       if (change.OpeningTimes.length !== this.defaultValues.length) {

@@ -46,7 +46,8 @@ export class OpeningTimesComponent implements OnInit {
     '23:00',
   ];
   doubleShifts: boolean[] = [false, false, false, false, false, false, false];
-  daysSelected: number =0;
+  daysSelected!: number;
+  disableForm= false;
 
   constructor(private fb: FormBuilder) {
   }
@@ -64,43 +65,34 @@ export class OpeningTimesComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.daysSelected = 0;
     this.initForm();
+    this.daysSelected = 0;
     setTimeout(() => {
       for (let i = 0; i < this.days.length; i++) {
         this.doubleShifts[i] = this.form.controls['OpeningTimes'].get([i])?.get('From2')?.value !== null;
-        if (this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value) {
+        if (!this.form.controls['OpeningTimes'].get([i])?.get('Closed')?.value) {
           this.daysSelected++;
         }
-        console.log(this.daysSelected);
       }
     }, 500);
+    if (this.defaultValues) {
+      this.subscribeFormControls();
+    }
+    this.days.forEach((day) => {
+      const openingTimeDay = this.fb.group({
+        DayOfWeek: [day.Number, Validators.required],
+        Closed: [true],
+        From1: ['08:00'],
+        To1: ['13:00'],
+        From2: ['14:00'],
+        To2: ['20:00'],
+      });
+      this.OpeningTimes.push(openingTimeDay);
+    });
     if (
       this.defaultValues
     ) {
-      this.defaultValues.forEach((day: any) => {
-        const openingTimeDay = this.fb.group({
-          DayOfWeek: [day['DayOfWeek']],
-          Open: [day['Open']],
-          From1: [day['From1']],
-          To1: [day['To1']],
-          From2: [day['From2']],
-          To2: [day['To2']],
-        });
-        this.OpeningTimes.push(openingTimeDay);
-      });
-    } else {
-      this.days.forEach((day) => {
-        const openingTimeDay = this.fb.group({
-          DayOfWeek: [day.Number, Validators.required],
-          Open: [false],
-          From1: ['08:00'],
-          To1: ['13:00'],
-          From2: ['14:00'],
-          To2: ['20:00'],
-        });
-        this.OpeningTimes.push(openingTimeDay);
-      });
+      this.resetOpeningTimes();
     }
     this.formReady.emit(this.form);
   }
@@ -122,8 +114,8 @@ export class OpeningTimesComponent implements OnInit {
 
   setDayAvailability(index: number) {
     const dayTime = this.form.controls['OpeningTimes'].get([index]);
-    dayTime?.get('Open')?.setValue(!dayTime?.get('Open')?.value);
-    if (dayTime?.get('Open')?.value) {
+    dayTime?.get('Closed')?.setValue(!dayTime?.get('Closed')?.value);
+    if (!dayTime?.get('Closed')?.value) {
       this.daysSelected++;
     } else {
       this.daysSelected--;
@@ -134,14 +126,14 @@ export class OpeningTimesComponent implements OnInit {
     let dayTime;
     let doubleShift = false;
     for (let i = 0; i < this.form.controls['OpeningTimes'].value.length; i++) {
-      if (this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value) {
+      if (!this.form.controls['OpeningTimes'].get([i])?.get('Closed')?.value) {
         dayTime = this.form.controls['OpeningTimes'].get([i]);
         doubleShift = this.doubleShifts[i];
         break;
       }
     }
     for (let i = 0; i < this.form.controls['OpeningTimes'].value.length; i++) {
-      if (this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value) {
+      if (!this.form.controls['OpeningTimes'].get([i])?.get('Closed')?.value) {
         this.form.controls['OpeningTimes'].get([i])?.get('From1')?.setValue(dayTime?.value.From1);
         this.form.controls['OpeningTimes'].get([i])?.get('To1')?.setValue(dayTime?.value.To1);
         if (doubleShift) {
@@ -151,5 +143,28 @@ export class OpeningTimesComponent implements OnInit {
         this.doubleShifts[i] = doubleShift;
       }
     }
+  }
+  resetOpeningTimes() {
+    this.OpeningTimes.setValue(this.defaultValues);
+  }
+  private subscribeFormControls() {
+    this.form.valueChanges.subscribe((change) => {
+      if (change.OpeningTimes.length !== this.defaultValues.length) {
+        this.disableForm = false;
+      } else {
+        this.disableForm = true;
+        for (let i = 0; i < this.defaultValues.length; i++) {
+          if (
+            this.defaultValues[i].From1 != change.OpeningTimes[i].From1 ||
+            this.defaultValues[i].From2 != change.OpeningTimes[i].From2 ||
+            this.defaultValues[i].To1 != change.OpeningTimes[i].To1 ||
+            this.defaultValues[i].To2 != change.OpeningTimes[i].To2 ||
+            this.defaultValues[i].Closed != change.OpeningTimes[i].Closed
+          ) {
+            this.disableForm = false;
+          }
+        }
+      }
+    });
   }
 }

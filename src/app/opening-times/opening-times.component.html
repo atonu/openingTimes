@@ -15,18 +15,18 @@
           fxLayoutGap="12px"
         >
           <div
-            [class.single-day-selected]="this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value"
+            [class.single-day-selected]="!this.form.controls['OpeningTimes'].get([i])?.get('Closed')?.value"
             class="single-day"
           >
             <p class="mb-0 font-size-14 roboto-regular">{{ days[i].Name.charAt(0) }}</p>
           </div>
         </div>
       </div>
-      <div fxLayout="row">
-        <div fxFlex="40" fxFlexAlign="column">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <div fxFlexAlign="column">
           <div *ngFor="let openingHoursForm of OpeningTimes.controls; let i = index" [formGroupName]="i">
             <div
-              *ngIf="this.form.controls['OpeningTimes'].get([i])?.get('Open')?.value"
+              *ngIf="!this.form.controls['OpeningTimes'].get([i])?.get('Closed')?.value"
               fxLayout="row"
               fxLayoutAlign="start start"
               fxLayoutGap="32px"
